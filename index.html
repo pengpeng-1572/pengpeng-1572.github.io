@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="彭鹏的个人技术博客：嵌入式开发、STM32、电机控制、Qt 上位机与 Linux。" />
+  <title>终不似，少年游 | 彭鹏的技术博客</title>
+
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --text: #1e293b;
+      --subtext: #64748b;
+      --primary: #2563eb;
+      --primary-soft: #eff6ff;
+      --border: #e2e8f0;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --header-bg: linear-gradient(135deg, #1d4ed8, #38bdf8);
+    }
+
+    body.dark {
+      --bg: #0f172a;
+      --card: #172033;
+      --text: #e2e8f0;
+      --subtext: #94a3b8;
+      --primary: #60a5fa;
+      --primary-soft: #1e3a5f;
+      --border: #293548;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      --header-bg: linear-gradient(135deg, #172554, #075985);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      transition: background 0.25s, color 0.25s;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1080px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    header {
+      color: #fff;
+      background: var(--header-bg);
+      padding: 20px 0 70px;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-size: 14px;
+    }
+
+    .nav-links a {
+      opacity: 0.9;
+    }
+
+    .nav-links a:hover {
+      opacity: 1;
+    }
+
+    .theme-btn {
+      border: 1px solid rgba(255,255,255,0.45);
+      color: #fff;
+      background: rgba(255,255,255,0.12);
+      padding: 7px 11px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .hero {
+      padding: 68px 0 20px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(36px, 7vw, 58px);
+      letter-spacing: 4px;
+    }
+
+    .hero p {
+      margin: 18px 0 26px;
+      font-size: 17px;
+      opacity: 0.9;
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 18px;
+      border-radius: 9px;
+      font-weight: 700;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-light {
+      color: #1d4ed8;
+      background: #fff;
+      box-shadow: 0 5px 16px rgba(0,0,0,0.12);
+    }
+
+    .btn-outline {
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.7);
+    }
+
+    main {
+      padding: 42px 0 70px;
+    }
+
+    section {
+      margin-bottom: 48px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      font-size: 24px;
+    }
+
+    .section-title span {
+      color: var(--primary);
+    }
+
+    .about {
+      padding: 26px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--card);
+      box-shadow: var(--shadow);
+    }
+
+    .about p {
+      margin: 0;
+      color: var(--subtext);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--card);
+      box-shadow: var(--shadow);
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--primary);
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+
+    .card p {
+      margin: 0 0 16px;
+      color: var(--subtext);
+      font-size: 14px;
+      flex: 1;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: auto;
+    }
+
+    .tag {
+      padding: 3px 9px;
+      border-radius: 99px;
+      color: var(--primary);
+      background: var(--primary-soft);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .download-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .download-card::after {
+      content: "↓";
+      position: absolute;
+      right: 18px;
+      top: 8px;
+      color: var(--primary);
+      opacity: 0.12;
+      font-size: 74px;
+      font-weight: 800;
+    }
+
+    .download-btn {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 9px 13px;
+      width: fit-content;
+      color: #fff;
+      background: var(--primary);
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .article-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .article {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      padding: 17px 20px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--card);
+      box-shadow: var(--shadow);
+    }
+
+    .article:hover {
+      border-color: var(--primary);
+    }
+
+    .article small {
+      color: var(--subtext);
+      white-space: nowrap;
+    }
+
+    footer {
+      padding: 28px 0;
+      text-align: center;
+      color: var(--subtext);
+      border-top: 1px solid var(--border);
+      font-size: 14px;
+    }
+
+    @media (max-width: 760px) {
+      .nav-links a:not(:last-of-type) {
+        display: none;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .article {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 4px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <a class="logo" href="#">终不似，少年游</a>
+
+        <div class="nav-links">
+          <a href="#projects">项目</a>
+          <a href="#downloads">软件</a>
+          <a href="#articles">文章</a>
+          <a href="https://github.com/pengpeng-1572" target="_blank">GitHub</a>
+          <button class="theme-btn" onclick="toggleTheme()">🌙 深色</button>
+        </div>
+      </nav>
+
+      <div class="hero">
+        <h1>终不似，少年游</h1>
+        <p>嵌入式开发 · STM32 · 电机控制 · Qt 上位机 · Linux</p>
+        <div class="hero-actions">
+          <a class="btn btn-light" href="#projects">查看项目</a>
+          <a class="btn btn-outline" href="#downloads">软件下载</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section>
+      <h2 class="section-title"><span>👋</span> 关于我</h2>
+      <div class="about">
+        <p>
+          我是一名嵌入式软件工程师，关注 STM32、控制算法、电机驱动、相控阵测试与 Qt 上位机开发。
+          这个博客用于记录学习过程、整理技术笔记，并分享一些自己制作的 Windows 上位机工具。
+        </p>
+      </div>
+    </section>
+
+    <section id="projects">
+      <h2 class="section-title"><span>🚀</span> 项目与方向</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>电机控制与 FOC</h3>
+          <p>无刷电机驱动、磁编码器、三相电流采样、位置/速度/电流闭环与控制参数调试。</p>
+          <div class="tags">
+            <span class="tag">STM32</span>
+            <span class="tag">FOC</span>
+            <span class="tag">PID</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>测试与控制上位机</h3>
+          <p>基于 Qt 开发串口、CAN、RS485、网口测试软件，实现数据采集、实时曲线、参数配置与日志保存。</p>
+          <div class="tags">
+            <span class="tag">Qt</span>
+            <span class="tag">C++</span>
+            <span class="tag">PySide6</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>射频与相控阵测试</h3>
+          <p>相控阵波控、幅相控制、自动化测试、仪器通信与测试数据处理。</p>
+          <div class="tags">
+            <span class="tag">RF</span>
+            <span class="tag">SCPI</span>
+            <span class="tag">Python</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="downloads">
+      <h2 class="section-title"><span>💾</span> 软件工具下载</h2>
+      <div class="grid">
+        <article class="card download-card">
+          <h3>扫描架控制上位机</h3>
+          <p>用于扫描架设备控制、状态显示与相关测试操作。支持 Windows 系统运行。</p>
+          <div class="tags">
+            <span class="tag">Windows</span>
+            <span class="tag">上位机</span>
+            <span class="tag">V1.4</span>
+          </div>
+
+          <!-- 把下面链接替换为 Gitee Release 中 exe 或 zip 的真实下载链接 -->
+          <a class="download-btn"
+             href="https://gitee.com/P47p/a_/releases/tag/V1.4"
+             target="_blank">
+             前往下载
+          </a>
+        </article>
+
+        <article class="card download-card">
+          <h3>更多工具</h3>
+          <p>后续会发布串口调试、设备测试、数据采集等个人工具，并在这里持续更新。</p>
+          <div class="tags">
+            <span class="tag">持续更新</span>
+            <span class="tag">Windows</span>
+          </div>
+          <a class="download-btn"
+             href="https://gitee.com/"
+             target="_blank">
+             查看发布页
+          </a>
+        </article>
+
+        <article class="card">
+          <h3>使用提示</h3>
+          <p>软件下载后建议先解压再运行，不要只单独复制 exe。若 Windows 提示未知发布者，请确认文件来自本博客链接的 Gitee Release 页面。</p>
+          <div class="tags">
+            <span class="tag">安全下载</span>
+            <span class="tag">使用说明</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="articles">
+      <h2 class="section-title"><span>📝</span> 技术文章</h2>
+      <div class="article-list">
+        <a class="article" href="#">
+          <span>STM32 注入 ADC：TIM1 输出比较触发与寄存器配置</span>
+          <small>即将发布</small>
+        </a>
+
+        <a class="article" href="#">
+          <span>FOC 中 Uq、电流、转速与力矩的关系</span>
+          <small>即将发布</small>
+        </a>
+
+        <a class="article" href="#">
+          <span>Qt 上位机：串口通信、实时曲线与线程设计</span>
+          <small>即将发布</small>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © 2026 彭鹏 · 记录学习，分享技术，热爱生活 ·
+    <a href="https://github.com/pengpeng-1572" target="_blank">GitHub</a>
+  </footer>
+
+  <script>
+    function toggleTheme() {
+      document.body.classList.toggle("dark");
+
+      const btn = document.querySelector(".theme-btn");
+      const isDark = document.body.classList.contains("dark");
+      btn.textContent = isDark ? "☀️ 浅色" : "🌙 深色";
+
+      localStorage.setItem("theme", isDark ? "dark" : "light");
+    }
+
+    if (localStorage.getItem("theme") === "dark") {
+      document.body.classList.add("dark");
+      document.querySelector(".theme-btn").textContent = "☀️ 浅色";
+    }
+  </script>
+</body>
+</html>
